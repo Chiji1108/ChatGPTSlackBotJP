@@ -21,6 +21,7 @@ chatbot = Chatbot(ChatGPTConfig, conversation_id=None)
 @app.event("app_mention")
 def event_test(event, say):
     prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
+    print()
     response = chatbot.get_chat_response(prompt)
     user = event['user']
     user = f"<@{user}> が発言します:"
@@ -29,6 +30,11 @@ def event_test(event, say):
     send = [user, asked, response["message"]]
     send = "\n".join(send)
     say(send)
+
+@app.message("hello")
+def message_hello(message, say):
+    # イベントがトリガーされたチャンネルへ say() でメッセージを送信します
+    say(f"Hey there <@{message['user']}>!")
 
 
 def chatgpt_refresh():
