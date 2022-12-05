@@ -22,7 +22,9 @@ def hoge(event, say):
     print(event['text'])
     say("hoge")
 
-
+@app.event("message")
+def handle_message_events(body, logger):
+    logger.info(body)
 
 # @app.event("app_mention")
 # def event_test(event, say):
