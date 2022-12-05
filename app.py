@@ -24,17 +24,17 @@ def hoge(event, say):
 
 
 
-@app.event("app_mention")
-def event_test(event, say):
-    prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
-    response = chatbot.get_chat_response(prompt)
-    user = event['user']
-    user = f"<@{user}> が発言します:"
-    asked = ['>', prompt]
-    asked = "".join(asked)
-    send = [user, asked, response["message"]]
-    send = "\n".join(send)
-    say(send)
+# @app.event("app_mention")
+# def event_test(event, say):
+#     prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
+#     response = chatbot.get_chat_response(prompt)
+#     user = event['user']
+#     user = f"<@{user}> が発言します:"
+#     asked = ['>', prompt]
+#     asked = "".join(asked)
+#     send = [user, asked, response["message"]]
+#     send = "\n".join(send)
+#     say(send)
 
 
 def chatgpt_refresh():
@@ -46,5 +46,5 @@ def chatgpt_refresh():
 if __name__ == "__main__":
     thread = Thread(target=chatgpt_refresh)
     thread.start()
-    app.start(port=int(os.environ.get("PORT", 8080)))
     print('hoge')
+    app.start(port=int(os.environ.get("PORT", 8080)))
