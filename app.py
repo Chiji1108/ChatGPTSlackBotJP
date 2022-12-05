@@ -3,14 +3,15 @@ import re
 import time
 from threading import Thread
 from slack_bolt import App
+from slack_bolt.adapter.socket_mode import SocketModeHandler
 from revChatGPT.revChatGPT import Chatbot
 
 ChatGPTConfig = {
         "Authorization": "<Your Bearer Token Here>", # This is optional
-        "session_token": os.environ['CHATGPT_SESSION_TOKEN']
+        "session_token": os.environ.get('CHATGPT_SESSION_TOKEN')
     }
 
-app = App()
+app = App(token=os.environ.get("SLACK_BOT_TOKEN"), )
 chatbot = Chatbot(ChatGPTConfig, conversation_id=None)
 
 # Listen for an event from the Events API
@@ -19,7 +20,7 @@ def event_test(event, say):
     prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
     response = chatbot.get_chat_response(prompt)
     user = event['user']
-    user = f"<@{user}> you asked:"
+    user = f"<@{user}> が発言します:"
     asked = ['>',prompt]
     asked = "".join(asked)
     send = [user,asked,response["message"]]
@@ -34,5 +35,5 @@ def chatgpt_refresh():
 if __name__ == "__main__":
     thread = Thread(target=chatgpt_refresh)
     thread.start()
-    app.start(4000)  # POST http://localhost:4000/slack/events
+    SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
     
