@@ -21,7 +21,6 @@ chatbot = Chatbot(ChatGPTConfig, conversation_id=None)
 @app.event("app_mention")
 def event_test(event, say):
     prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
-    print()
     response = chatbot.get_chat_response(prompt)
     user = event['user']
     user = f"<@{user}> が発言します:"
@@ -46,4 +45,4 @@ def chatgpt_refresh():
 if __name__ == "__main__":
     thread = Thread(target=chatgpt_refresh)
     thread.start()
-    app.start(port=int(os.environ.get("PORT", 3000)))
+    app.start(port=int(os.environ.get("PORT", 8080)))
