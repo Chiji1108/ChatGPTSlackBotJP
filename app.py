@@ -16,6 +16,12 @@ app = App(token=os.environ.get("SLACK_BOT_TOKEN"),
 chatbot = Chatbot(ChatGPTConfig, conversation_id=None)
 
 # Listen for an event from the Events API
+@app.event("app_mention")
+def hoge(event, say):
+    print('hoge')
+    print(event['text'])
+    say("hoge")
+
 
 
 @app.event("app_mention")
@@ -30,11 +36,6 @@ def event_test(event, say):
     send = "\n".join(send)
     say(send)
 
-@app.message("hello")
-def message_hello(message, say):
-    # イベントがトリガーされたチャンネルへ say() でメッセージを送信します
-    say(f"Hey there <@{message['user']}>!")
-
 
 def chatgpt_refresh():
     while True:
@@ -46,3 +47,4 @@ if __name__ == "__main__":
     thread = Thread(target=chatgpt_refresh)
     thread.start()
     app.start(port=int(os.environ.get("PORT", 8080)))
+    print('hoge')
