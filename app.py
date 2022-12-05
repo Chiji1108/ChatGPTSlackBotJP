@@ -11,7 +11,7 @@ ChatGPTConfig = {
         "session_token": os.environ.get('CHATGPT_SESSION_TOKEN')
     }
 
-app = App(token=os.environ.get("SLACK_BOT_TOKEN"), )
+app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 chatbot = Chatbot(ChatGPTConfig, conversation_id=None)
 
 # Listen for an event from the Events API
